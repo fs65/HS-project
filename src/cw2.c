@@ -144,7 +144,50 @@ int getInput() {
     return c;
   }
 
-  
+//main function for the game
+int * gameGuess(struct pegs * guess, struct pegs * secret) {
+
+
+  int *correct = malloc(2 * sizeof(int));
+  correct[0] = 0  //number of full correct answer
+  correct[1] = 0 //number of half correct answers
+
+  int guess[PEGS];
+  int secret[PEGS];
+
+  //looks for full correct PEGS
+  for(int i = 0; i < PEGS; i++) {
+
+    guess[i] = 0;
+    secret[i] = 0;
+
+    if(secret->colors[i] == guess->colors[i]) {
+
+      correct[0]++;   //adds full correct guess
+      guess[i] = 1;   //tracks that the epgs has been found
+      secret[i] = 1;
+    }
+  }
+
+  //looks for right color but wrond position
+  for(int i = 0; i < PEGS; i ++) {    //loops over secret
+
+    if(secret[i] != 1) {    //skips pegs that have been found
+
+      for(int j = 0; j < PEGS; j++) {   //loops over guesses
+
+        if(secret[i] != 1 && secret->colors[i] == guess->colors[i]) {
+
+          correct[1]++;   //adds half right answers
+          secret[i] = 1;
+          guess[j] = 1;
+        }
+      }
+    }
+  }
+  return correct
+}
+
 void int main() {
 
   int fSel, shift, pin,  clrOff, setOff, off;
