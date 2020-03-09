@@ -35,6 +35,19 @@ void mmap_setup() {
 
 }
 
+//helper function for making an LED blink
+void blink(int pin, int j) {
+
+  int i;
+  for(i = 0; i < j; i++) {
+
+    writePin(pin, HIGH);
+    delay(500);
+    writePin(pin, LOW);
+    delay(500);
+  }
+}
+
 void int main() {
 
   int fSel, shift, pin,  clrOff, setOff, off;
@@ -50,11 +63,10 @@ void int main() {
   //set up the button
   fsel = 1;
   shift = 27;
-  *(gpio + fSel) = *(gpio + fSel) & ~(7 << shift); 
+  *(gpio + fSel) = *(gpio + fSel) & ~(7 << shift);
 
-  //set up the red LED 
+  //set up the red LED
   fsel = 0;
   shift = 15;
-  *(gpio + fSel) = (*(gpio + fSel) & ~(7 << shift)) | (1 << shift) ; 
+  *(gpio + fSel) = (*(gpio + fSel) & ~(7 << shift)) | (1 << shift) ;
 }
-
