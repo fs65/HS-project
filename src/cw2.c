@@ -21,6 +21,8 @@ static volatile uint32_t *timer;
 static volatile unsigned int gpiobase ;
 static volatile uint32_t *gpio ;
 
+int debug;
+
 //holds the data for the pegs
 typedef struct pegs {
         int colors[PEGS];
@@ -77,6 +79,27 @@ int readPin(int pin) {
   if((*(gpio + offset) & (1 << (pin & 31))) != 0)
     return 1;
   return 0;
+}
+
+int getButtonInput() {
+
+  int press = 0;
+  uint32_t time = getTime();
+
+  if(debug == 2)
+    printf("DEBUGGING\n";
+
+  while((getTime() - time) < INPUT_WATT * 1000) {
+
+    if(readPin(16)) {
+
+      press++;
+      if(debug == 2)
+        printf("Button has been pressed\n");
+      blink(RED, 5);
+    }
+  }
+  return press;
 }
 
 //helper function for making an LED blink
