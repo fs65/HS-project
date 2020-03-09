@@ -53,6 +53,24 @@ volatile uint32_t getTime() {
     return *(timer + 1);
 }
 
+void setPut(int pin, int mode) {
+
+  int fsel = pin / 10;
+  int shift = (pin % 10) * 3;
+
+  if(mode == INPUT)
+    *(gpio + fsel) = (*(gpio +fsel) & ~(7 << shift)) ; //bits = 0
+    *(gpio + fsel) = (*(gpio +fsel) & ~(7 << shift)) | (1 << shift) ;
+
+}
+
+void gpio_setup() {
+
+  setPut(RED, OUTPUT);
+  setPut(GREEN, OUTPUT);
+  setPut(BUTTON, INPUT);
+}
+
 //helper function that sets the pin to on or off
 void writePin(int pin, int value) {
 
@@ -187,6 +205,14 @@ int * gameGuess(struct pegs * guess, struct pegs * secret) {
   }
   return correct
 }
+
+void printPegs(struct pegs *p) {
+
+  for(int i = 0; i < PEGS; i++)
+
+    printf("%d\n", p->colors[i]);
+}
+
 
 void int main() {
 
