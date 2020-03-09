@@ -115,6 +115,23 @@ void blink(int pin, int j) {
   }
 }
 
+//gets the input from the user and returns it as an int
+int getInput() {
+
+  int answer = getButtonInput();
+
+  while(answer > COLOURS || answer < 1) {
+
+    if(debug == 2)
+      printf("Input Accepted %i\n", answer);
+
+    blink(RED, 5);
+    blink(GREEN, 13);
+
+    return answer;
+  }
+}
+           
 void int main() {
 
   int fSel, shift, pin,  clrOff, setOff, off;
