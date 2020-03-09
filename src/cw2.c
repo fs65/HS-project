@@ -47,6 +47,10 @@ void mmap_setup() {
 
 }
 
+volatile uint32_t getTime() {
+    return *(timer + 1);
+}
+
 //helper function that sets the pin to on or off
 void writePin(int pin, int value) {
 
@@ -63,6 +67,16 @@ void writePin(int pin, int value) {
     offset += 10;   //10 = reg GPCLR0
     *(gpio + offset) = 1 << (pin & 31);
   }
+}
+
+//helper function to read the pin and give value
+int readPin(int pin) {
+
+  int offset = (pin / 32);
+
+  if((*(gpio + offset) & (1 << (pin & 31))) != 0)
+    return 1;
+  return 0;
 }
 
 //helper function for making an LED blink
