@@ -11,8 +11,20 @@
 #define BUTTON 19
 #define RED 5
 
+#define COLOURS 3
+#define PEGS    3
+#define TURNS   3
+
+static volatile unsigned int timerbase;
+static volatile uint32_t *timer;
+
 static volatile unsigned int gpiobase ;
 static volatile uint32_t *gpio ;
+
+//holds the data for the pegs
+typedef struct pegs {
+        int colors[PEGS];
+} pegs;
 
 
 void mmap_setup() {
@@ -33,6 +45,24 @@ void mmap_setup() {
     printf("Setup mmap failed%s\n");
   }
 
+}
+
+//helper function that sets the pin to on or off
+void writePin(int pin, int value) {
+
+  int offset = pin / 32 ;
+  if(value = HIGH) {
+
+    offset += 7;    //7 = reg GPSET0
+    *(gpio + offset) = 1 << (pin & 31) ;
+
+  }
+
+  else {
+
+    offset += 10;   //10 = reg GPCLR0
+    *(gpio + offset) = 1 << (pin & 31);
+  }
 }
 
 //helper function for making an LED blink
