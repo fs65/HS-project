@@ -131,7 +131,20 @@ int getInput() {
     return answer;
   }
 }
-           
+
+  struct pegs * getColors() {
+
+    struct pegs *c = malloc(sizeof(struct pegs)); //sets up memory
+    int i;
+    for(i = 0; i < PEGS; i++) {
+
+      int input = getInput();   //reads in the users input
+      c->colors[i] = input;   //stores it in the pegs struct
+    }
+    return c;
+  }
+
+  
 void int main() {
 
   int fSel, shift, pin,  clrOff, setOff, off;
