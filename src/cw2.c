@@ -1,3 +1,19 @@
+#define	PAGE_SIZE		(4*1024)
+#define	BLOCK_SIZE		(4*1024)
+
+#define	INPUT	0
+#define	OUTPUT 1
+
+#define	LOW 0
+#define	HIGH 1
+
+#define GREEN 13
+#define BUTTON 19
+#define RED 5
+
+static volatile unsigned int gpiobase ;
+static volatile uint32_t *gpio ;
+
 
 void mmap_setup() {
 
@@ -18,3 +34,27 @@ void mmap_setup() {
   }
 
 }
+
+void int main() {
+
+  int fSel, shift, pin,  clrOff, setOff, off;
+
+  gpiobase = 0x3F200000;    //constant for rpi2
+
+
+  //set up the green LED
+  fsel = 1;
+  shift = 9;
+  *(gpio + fSel) = (*(gpio + fSel) & ~(7 << shift)) | (1 << shift) ; //sets the bits to 1
+
+  //set up the button
+  fsel = 1;
+  shift = 27;
+  *(gpio + fSel) = *(gpio + fSel) & ~(7 << shift); 
+
+  //set up the red LED 
+  fsel = 0;
+  shift = 15;
+  *(gpio + fSel) = (*(gpio + fSel) & ~(7 << shift)) | (1 << shift) ; 
+}
+
