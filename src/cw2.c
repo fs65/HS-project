@@ -213,6 +213,42 @@ void printPegs(struct pegs *p) {
     printf("%d\n", p->colors[i]);
 }
 
+int game() {
+
+  struct pegs *secret = getColors();
+  struct pegs *guess;
+
+  int *answer = malloc(2 * sizeof(int));
+
+  if(debug) {
+
+    printf("SECRET");
+    printPegs(secret);
+  }
+
+  for(int i = 0; i < TURNS; i++) {
+
+    //indicates the start of the round
+    blink(RED, 5);
+    guess = getColors();
+    blink(RED, 5);  //end of INPUT
+
+    answer = gameGuess(guess, secret);
+
+    if(debug) {
+
+      printf("Guess %i: \n",i+1);
+      printPegs(guess);
+      //prints the users guesses and which are correct
+      printf("Answer %i:\n\t\tFull Correct: %d \n\t\tHalf Correct: %d\n\n", i+1, correct[0], correct[1]);
+    }
+    
+    if(correct[0] == PEGS)
+      return 1;
+  }
+  return 0;
+}
+
 
 void int main() {
 
