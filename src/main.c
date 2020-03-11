@@ -1,6 +1,6 @@
 #include "cw2.c"
 
-int int main(int argc, char const *argv[]) {
+int main(int argc, char const *argv[]) {
   /* code */
 
   mmap_setup();
